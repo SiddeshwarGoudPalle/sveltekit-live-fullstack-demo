@@ -8,6 +8,10 @@
     currentUserId = userId;
     showUpdateForm = true;
   }
+
+  function closeUpdateForm() {
+    showUpdateForm = false;
+  }
 </script>
 
 <div
@@ -24,25 +28,18 @@
   <div class="divide-y divide-gray-900/5">
     {#each names as user (user.id)}
       <div class="flex items-center justify-between py-3">
-        <div class="flex items-center space-x-4">
-          <div class="flex">
-            <p class="font-medium pt-1 leading-none">{user.name}</p>
-            <p class="font-medium pl-5 text-gray-500 pt-0">{user.email}</p>
-          </div>
+        <div class="flex flex-col items-start space-y-1">
+          <p class="font-medium leading-none break-all">{user.name}</p>
+          <p class="font-medium text-gray-500 break-all">{user.email}</p>
         </div>
-
         <div class="flex items-center space-x-4">
-          <div>
-            <button
-              type="submit"
-              class=" text-white font-bold px-2 rounded float-right"
-              on:click={() => openUpdateForm(user.id)}
-            >
-              <!-- on:click={() => openUpdateModal(user.id)} -->
-              <img class="w-4" src="./pencil.svg" alt="delete" />
-            </button>
-          </div>
-
+          <button
+            type="submit"
+            class="text-white font-bold px-2 rounded float-right"
+            on:click={() => openUpdateForm(user.id)}
+          >
+            <img class="w-4" src="./pencil.svg" alt="update" />
+          </button>
           <form method="POST" action="/profiles?/delete">
             <input type="hidden" name="id" id="id" value={user.id} />
             <button type="submit">
@@ -68,7 +65,7 @@
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-city"
+              for="grid-name"
             >
               Name
             </label>
@@ -83,7 +80,7 @@
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-city"
+              for="grid-email"
             >
               Email
             </label>
@@ -95,11 +92,20 @@
               name="email"
             />
           </div>
+        </div>
+        <div class="flex justify-end space-x-2 mt-4">
           <button
             type="submit"
-            class="bg-yellow-500 hover:bg-blue-700 text-white font-bold mt-5 ml-2 px-2 rounded"
+            class="bg-yellow-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
           >
             Update User
+          </button>
+          <button
+            type="button"
+            class="bg-gray-500 hover:bg-gray-700 text-white font-bold px-4 py-2 rounded"
+            on:click={closeUpdateForm}
+          >
+            Cancel
           </button>
         </div>
       </form>
